@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Tromsø</title>
+
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: Arial, sans-serif;
+min-height: 100vh;
+color: white;
+background:
+radial-gradient(circle at 50% 15%, #163b59 0%, transparent 35%),
+linear-gradient(180deg, #020817 0%, #061426 55%, #02050d 100%);
+}
+
+.container {
+width: 100%;
+max-width: 900px;
+margin: auto;
+padding: 25px 18px 40px;
+}
+
+header {
+text-align: center;
+padding: 20px 0 30px;
+}
+
+.logo {
+font-size: 42px;
+margin-bottom: 8px;
+}
+
+h1 {
+font-size: 32px;
+}
+
+.subtitle {
+color: #a8bfd1;
+margin-top: 8px;
+}
+
+.card {
+background: rgba(15, 30, 50, 0.82);
+border: 1px solid rgba(120, 180, 210, 0.2);
+border-radius: 20px;
+padding: 22px;
+margin-bottom: 18px;
+box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+
+.status {
+text-align: center;
+}
+
+.score {
+font-size: 64px;
+font-weight: bold;
+margin: 12px 0;
+}
+
+.good {
+color: #71f5c4;
+}
+
+.small {
+color: #9db3c5;
+font-size: 14px;
+}
+
+.grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 14px;
+}
+
+.stat {
+background: rgba(255,255,255,0.05);
+border-radius: 15px;
+padding: 18px;
+}
+
+.stat-title {
+color: #9db3c5;
+font-size: 14px;
+margin-bottom: 8px;
+}
+
+.stat-value {
+font-size: 24px;
+font-weight: bold;
+}
+
+button {
+width: 100%;
+border: none;
+border-radius: 14px;
+padding: 15px;
+font-size: 16px;
+font-weight: bold;
+cursor: pointer;
+background: #71f5c4;
+color: #061426;
+margin-top: 15px;
+}
+
+button:hover {
+opacity: 0.9;
+}
+
+.location {
+text-align: center;
+color: #b8cad8;
+margin-top: 10px;
+}
+
+footer {
+text-align: center;
+color: #657b8d;
+font-size: 13px;
+margin-top: 30px;
+}
+
+@media (max-width: 600px) {
+h1 {
+font-size: 27px;
+}
+
+.score {
+font-size: 52px;
+}
+
+.grid {
+grid-template-columns: 1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<div class="logo">🌌</div>
+<h1>Aurora Tromsø</h1>
+<p class="subtitle">Northern Lights Forecast</p>
+</header>
+
+<div class="card status">
+<p class="small">Aurora visibility</p>
+
+<div class="score good">78%</div>
+
+<p>Good conditions for Northern Lights</p>
+
+<div class="location">
+📍 Tromsø, Norway
+</div>
+</div>
+
+<div class="card">
+<h2>Tonight</h2>
+
+<div class="grid" style="margin-top:15px">
+
+<div class="stat">
+<div class="stat-title">☁️ Cloud cover</div>
+<div class="stat-value">24%</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">🌠 KP Index</div>
+<div class="stat-value">4.8</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">🌡️ Temperature</div>
+<div class="stat-value">-2°C</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">🧭 Best time</div>
+<div class="stat-value">22:00–02:00</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h2>📍 Viewing location</h2>
+<p class="small" style="margin-top:10px">
+Find a dark location away from city lights for a better chance
+of seeing the Aurora.
+</p>
+
+<button onclick="findLocation()">
+Use my location
+</button>
+
+<p id="locationResult" class="location"></p>
+</div>
+
+<div class="card">
+<h2>🔔 Aurora alerts</h2>
+
+<p class="small" style="margin-top:10px">
+Get notified when Aurora conditions become favorable.
+</p>
+
+<button onclick="enableAlerts()">
+Enable notifications
+</button>
+</div>
+
+<footer>
+Aurora Tromsø • First version
+</footer>
+
+</div>
+
+<script>
+
+function findLocation() {
+const result = document.getElementById("locationResult");
+
+if (!navigator.geolocation) {
+result.textContent = "Location is not supported by this browser.";
+return;
+}
+
+result.textContent = "Finding your location...";
+
+navigator.geolocation.getCurrentPosition(
+function(position) {
+const lat = position.coords.latitude.toFixed(4);
+const lon = position.coords.longitude.toFixed(4);
+
+result.textContent =
+"📍 Location found: " + lat + ", " + lon;
+},
+function() {
+result.textContent =
+"Could not access your location.";
+}
+);
+}
+
+function enableAlerts() {
+if (!("Notification" in window)) {
+alert("Notifications are not supported.");
+return;
+}
+
+Notification.requestPermission().then(function(permission) {
+if (permission === "granted") {
+alert("Aurora alerts enabled!");
+} else {
+alert("Notifications were not enabled.");
+}
+});
+}
+
+</script>
+
+</body>
+</html>
